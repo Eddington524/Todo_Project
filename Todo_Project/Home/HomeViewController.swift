@@ -69,7 +69,7 @@ class HomeViewController: BaseViewController {
     
     override func configureConstraints() {
         settingButton.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().inset(24)
             make.trailing.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(24)
         }
@@ -119,6 +119,15 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         layout.sectionInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         layout.scrollDirection = .vertical
         return layout
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       
+        let nav = UINavigationController(rootViewController: TodosViewController())
+        if indexPath.row == 2 {
+           
+            present(nav, animated: true)
+        }
     }
 }
 

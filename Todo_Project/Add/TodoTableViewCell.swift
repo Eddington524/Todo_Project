@@ -40,6 +40,8 @@ class TodoTableViewCell: UITableViewCell {
     
     private func configureView(){
         
+        titleTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        memoTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
     
     private func configureConstraints() {
@@ -53,5 +55,15 @@ class TodoTableViewCell: UITableViewCell {
             make.horizontalEdges.equalTo(contentView).inset(10)
             make.bottom.equalTo(contentView)
         }
+    }
+}
+
+extension TodoTableViewCell {
+    @objc func textFieldDidChange(_ sender: Any?){
+        NotificationCenter.default.post(name: NSNotification.Name("TitleReceived"), object: nil, userInfo: ["title": titleTextField.text!])
+        print("title",titleTextField.text)
+        
+        NotificationCenter.default.post(name: NSNotification.Name("MemoReceived"), object: nil, userInfo: ["memo": memoTextField.text!])
+        print("memo",memoTextField.text)
     }
 }

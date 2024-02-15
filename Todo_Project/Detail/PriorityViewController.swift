@@ -43,6 +43,10 @@ class PriorityViewController: BaseViewController {
     }
     
     @objc func tappedSeg() {
+        guard let priority = priority else{
+            print("우선순위를 선택해주세요!nil 입니다")
+            return
+        }
         navigationController?.popViewController(animated: true)
     }
 }

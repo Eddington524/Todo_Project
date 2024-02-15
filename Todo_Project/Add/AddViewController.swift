@@ -6,14 +6,25 @@
 //
 
 import UIKit
+import RealmSwift
+
+enum Todo {
+    
+}
 
 class AddViewController: BaseViewController {
+    
+    var newList: Results<Todotable>!
+    
     var list = ["","마감일","태그","우선 순위","이미지 추가"]
     var subList:[String] = ["","","","","",""]
     
-    var newDate: String = ""
-    var newTag: String = ""
-    var newPriority: String = ""
+    var titleText: String = ""
+    var memoText: String = ""
+    
+//    var newDate: String = ""
+//    var newTag: String = ""
+//    var newPriority: String = ""
     
     let addTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
@@ -23,17 +34,29 @@ class AddViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(titleReceivedNotification), name: NSNotification.Name("TitleReceived"), object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(dateReceivedNotification), name: NSNotification.Name("DateReceived"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(tagReceivedNotification), name: NSNotification.Name("tagReceived"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(priorityReceivedNotification), name: NSNotification.Name("priorityReceived"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(memoReceivedNotification), name: NSNotification.Name("MemoReceived"), object: nil)
         
     }
     
+    
     override func configureHierarchy() {
         view.addSubview(addTableView)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        let realm = try! Realm()
+        
+        newList = realm.objects(Todotable.self)
+        
+//        print(newList)
     }
     
     override func configureView(){
@@ -71,7 +94,7 @@ extension AddViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: TodoTableViewCell.identifier, for: indexPath) as! TodoTableViewCell
-            
+         
             cell.selectionStyle = .default
             
             return cell
@@ -120,21 +143,57 @@ extension AddViewController: UITableViewDelegate, UITableViewDataSource {
 extension AddViewController {
     func configureNavigationBar() {
         navigationItem.title = "새로운 할 일"
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .gray
+        
+        let rightBarButton = UIBarButtonItem()
+        rightBarButton.title = "저장"
+        rightBarButton.action = #selector(saveButtonClicked)
+        rightBarButton.target = self
+        navigationItem.rightBarButtonItem = rightBarButton
         
         let leftBarButton = UIBarButtonItem()
         leftBarButton.title = "취소"
         leftBarButton.action = #selector(cancelButtonClicked)
         leftBarButton.target = self
         navigationItem.leftBarButtonItem = leftBarButton
+        
     }
     
     @objc func cancelButtonClicked() {
         dismiss(animated: true)
     }
+    
+    @objc func saveButtonClicked() {
+        let realm = try! Realm()
+        
+        if title == "" {
+            print("제목")
+        }
+        
+        let data = Todotable(title: titleText, memo: memoText, duedate: subList[1], tag: subList[2], priority: subList[3])
+        
+        try! realm.write{
+            realm.add(data)
+        }
+  
+    }
 }
 
 extension AddViewController {
+    @objc func titleReceivedNotification(notification:NSNotification){
+        if let value = notification.userInfo?["title"] as? String {
+            titleText = value
+        }
+        addTableView.reloadData()
+    }
+    
+    @objc func memoReceivedNotification(notification:NSNotification){
+        if let value = notification.userInfo?["memo"] as? String {
+            memoText = value
+        }
+        addTableView.reloadData()
+    }
+    
     @objc func dateReceivedNotification(notification:NSNotification){
         if let value = notification.userInfo?["newDate"] as? String {
             subList[1] = value
@@ -155,4 +214,6 @@ extension AddViewController {
         }
         addTableView.reloadData()
     }
+    
 }
+
