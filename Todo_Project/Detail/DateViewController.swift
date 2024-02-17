@@ -17,6 +17,7 @@ class DateViewController: BaseViewController {
         return datePicker
     }()
     
+    var delegate: PassDataDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,9 @@ class DateViewController: BaseViewController {
             newDate?(date)
         
         NotificationCenter.default.post(name: NSNotification.Name("DateReceived"), object: nil, userInfo: ["newDate": date])
+        
+        delegate?.dateReceived(date: datePicker.date)
+        
         }
     
     override func configureHierarchy() {

@@ -8,8 +8,63 @@
 import UIKit
 import SnapKit
 
+enum SectionType: Int, CaseIterable {
+    case today
+    case goingto
+    case total
+    case flag
+    case complete
+    
+    var title: String {
+        switch self {
+        case .today:
+            return "오늘"
+        case .goingto:
+            return "예정"
+        case .total:
+            return "전체"
+        case .flag:
+            return "깃발 표시"
+        case .complete:
+            return "완료"
+        }
+    }
+    
+    var backgroundColor: UIColor {
+        switch self {
+        case .today:
+            return .systemBlue
+        case .goingto:
+            return .systemRed
+        case .total:
+            return .systemGray
+        case .flag:
+            return .systemYellow
+        case .complete:
+            return .lightGray
+        }
+    }
+    
+    var symbolIcon: String {
+        switch self {
+        case .today:
+            return "calendar"
+        case .goingto:
+            return "calendar"
+        case .total:
+            return "folder.circle"
+        case .flag:
+            return "flag.checkered.circle"
+        case .complete:
+            return "checkmark"
+        }
+    }
+}
+
 class HomeViewController: BaseViewController {
-    final let list:[String:Int] = ["오늘":0, "예정":0, "전체":1, "깃발 표시":0, "완료됨":0]
+//    final let list:[String:Int] = ["오늘":0, "예정":0, "전체":1, "깃발 표시":0, "완료됨":0]
+//    var list = SectionType.AllCases()
+    let list = SectionType.AllCases()
     
     let settingButton:UIButton = {
         let btn = UIButton()
@@ -32,18 +87,14 @@ class HomeViewController: BaseViewController {
     }()
     
     let toolbar = UIToolbar()
-    //    override func viewDidLoad() {
-    //        super.viewDidLoad()
-    //        
-    //    }
-    
+
     var items: [UIBarButtonItem] = []
     
-    let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+    lazy var flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
     
-    let toolbarFirstItem = UIBarButtonItem(title: "새로운 할 일", style: .plain, target: self, action: #selector(addButtonClicked))
+    lazy var toolbarFirstItem = UIBarButtonItem(title: "새로운 할 일", style: .plain, target: self, action: #selector(addButtonClicked))
     
-    let toolbarSecondItem = UIBarButtonItem(title: "목록추가", style: .plain, target: self, action: nil)
+    lazy var toolbarSecondItem = UIBarButtonItem(title: "목록추가", style: .plain, target: self, action: nil)
     //    let toolbarSecondItem = UIBarButtonItem(barButtonSystemItem: .add, target: HomeViewController.self, action: nil)
     
     
@@ -52,6 +103,7 @@ class HomeViewController: BaseViewController {
         view.addSubview(wholeTitle)
         view.addSubview(categoryCollectionView)
         view.addSubview(toolbar)
+
     }
     
     override func configureView(){
@@ -91,21 +143,23 @@ class HomeViewController: BaseViewController {
         }
     }
     
-    
 }
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return list.count
+        return SectionType.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let item = SectionType.allCases[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier , for: indexPath) as! CategoryCollectionViewCell
-        //        cell.iconImageView.image = UIImage(systemName: "calendar")
+        cell.iconImageView.image = UIImage(systemName: item.symbolIcon)
         cell.countLabel.text = "0"
-        cell.categoryLabel.text = "테스트"
+        cell.categoryLabel.text = item.title
+        cell.iconImageView.backgroundColor = item.backgroundColor
         cell.clipsToBounds = true
         cell.layer.cornerRadius = 10
         return cell

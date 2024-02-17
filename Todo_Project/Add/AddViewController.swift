@@ -8,11 +8,16 @@
 import UIKit
 import RealmSwift
 
-enum Todo {
-    
+protocol PassDataDelegate {
+    func dateReceived(date:Date)
 }
 
-class AddViewController: BaseViewController {
+class AddViewController: BaseViewController, PassDataDelegate {
+    
+    func dateReceived(date: Date) {
+        realDate = date
+    }
+    
     
     var newList: Results<Todotable>!
     
@@ -22,9 +27,9 @@ class AddViewController: BaseViewController {
     var titleText: String = ""
     var memoText: String = ""
     
-//    var newDate: String = ""
+    var realDate: Date = Date()
 //    var newTag: String = ""
-//    var newPriority: String = ""
+    var newPriority: Int = 0
     
     let addTableView: UITableView = {
         let view = UITableView(frame: .zero, style: .insetGrouped)
@@ -170,12 +175,15 @@ extension AddViewController {
             print("제목")
         }
         
-        let data = Todotable(title: titleText, memo: memoText, duedate: subList[1], tag: subList[2], priority: subList[3])
+//        print(realm.configuration.fileURL)
+        
+        let data = Todotable(title: titleText, memo: memoText, duedate: realDate, tag: subList[2], priority: newPriority)
         
         try! realm.write{
             realm.add(data)
         }
-  
+        dismiss(animated: true)
+        
     }
 }
 
@@ -198,6 +206,11 @@ extension AddViewController {
         if let value = notification.userInfo?["newDate"] as? String {
             subList[1] = value
         }
+        
+        let vc = DateViewController()
+        vc.delegate = self
+        
+        
         addTableView.reloadData()
     }
     
@@ -212,8 +225,11 @@ extension AddViewController {
         if let value = notification.userInfo?["priority"] as? String {
             subList[3] = value
         }
+        if let value2 = notification.userInfo?["priorityIdx"] as? Int {
+            newPriority = Int(value2) 
+            print(newPriority)
+        }
         addTableView.reloadData()
     }
     
 }
-

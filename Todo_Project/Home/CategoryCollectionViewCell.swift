@@ -14,7 +14,7 @@ class CategoryCollectionViewCell: BaseCollectionViewCell {
         let view = UIImageView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 16
-        view.backgroundColor = .red
+        view.tintColor = .white
        return view
     }()
     

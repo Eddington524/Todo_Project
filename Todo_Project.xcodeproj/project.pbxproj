@@ -11,6 +11,7 @@
 		DC1E21FB2B7E0CB3007FDFB3 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC1E21FA2B7E0CB3007FDFB3 /* RealmSwift */; };
 		DC1E21FE2B7E0CFA007FDFB3 /* RealmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E21FD2B7E0CFA007FDFB3 /* RealmModel.swift */; };
 		DC1E22012B7E35E6007FDFB3 /* TodosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E22002B7E35E6007FDFB3 /* TodosViewController.swift */; };
+		DC1E22062B807BF4007FDFB3 /* TodosTableRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC1E22052B807BF4007FDFB3 /* TodosTableRepository.swift */; };
 		DC5520062B7C9EF000AF67A8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5520052B7C9EF000AF67A8 /* AppDelegate.swift */; };
 		DC5520082B7C9EF000AF67A8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5520072B7C9EF000AF67A8 /* SceneDelegate.swift */; };
 		DC55200A2B7C9EF000AF67A8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5520092B7C9EF000AF67A8 /* HomeViewController.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		DC1E21FD2B7E0CFA007FDFB3 /* RealmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModel.swift; sourceTree = "<group>"; };
 		DC1E22002B7E35E6007FDFB3 /* TodosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosViewController.swift; sourceTree = "<group>"; };
+		DC1E22052B807BF4007FDFB3 /* TodosTableRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTableRepository.swift; sourceTree = "<group>"; };
 		DC5520022B7C9EF000AF67A8 /* Todo_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Todo_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC5520052B7C9EF000AF67A8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DC5520072B7C9EF000AF67A8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				DC1E21FD2B7E0CFA007FDFB3 /* RealmModel.swift */,
+				DC1E22052B807BF4007FDFB3 /* TodosTableRepository.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				DC55203D2B7D308300AF67A8 /* DateFormmater+.swift in Sources */,
 				DC5520382B7D2D9B00AF67A8 /* TagViewController.swift in Sources */,
 				DC5520292B7CB48000AF67A8 /* BaseCollectionViewCell.swift in Sources */,
+				DC1E22062B807BF4007FDFB3 /* TodosTableRepository.swift in Sources */,
 				DC1E22012B7E35E6007FDFB3 /* TodosViewController.swift in Sources */,
 				DC55203A2B7D2DA800AF67A8 /* PriorityViewController.swift in Sources */,
 				DC1E21FE2B7E0CFA007FDFB3 /* RealmModel.swift in Sources */,

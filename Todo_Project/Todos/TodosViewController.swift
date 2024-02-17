@@ -9,6 +9,12 @@ import UIKit
 import SnapKit
 import RealmSwift
 
+enum sortType: String {
+    case titleSort = "title"
+    case duedateSort = "duedate"
+    case prioritySort = "priority"
+}
+
 class TodosViewController: BaseViewController {
 
     let todosTableView: UITableView = {
@@ -26,6 +32,8 @@ class TodosViewController: BaseViewController {
         let realm = try! Realm()
         
         list = realm.objects(Todotable.self).sorted(byKeyPath: keyType, ascending: false)
+        
+        configureNavigationBar()
     }
     
 
@@ -66,4 +74,52 @@ extension TodosViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+}
+
+extension TodosViewController {
+    func configureNavigationBar() {
+        
+        let titleSort = UIAction(title: "제목명순") { _ in
+            self.sortedTable(type:.titleSort)
+        }
+        
+        let duedateSort = UIAction(title: "마감일순") { _ in
+            self.sortedTable(type:.duedateSort)
+        }
+        
+        let prioritySort = UIAction(title: "우선순위 높은 것만 보기") { _ in
+            self.sortedTable(type:.prioritySort)
+            
+        }
+        
+        
+        lazy var buttonMenu = UIMenu(title: "정렬", children: [titleSort, duedateSort, prioritySort])
+
+        navigationController?.navigationBar.tintColor = .blue
+        
+        let rightBarButton = UIButton()
+        rightBarButton.menu = buttonMenu
+        rightBarButton.showsMenuAsPrimaryAction = true
+        rightBarButton.changesSelectionAsPrimaryAction = true
+        
+        rightBarButton.setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButton)
+        
+    }
+    
+    func sortedTable(type:sortType){
+        let realm = try! Realm()
+        
+        if type == .prioritySort {
+            list = realm.objects(Todotable.self).where{
+                $0.priority == 0
+            }.sorted(byKeyPath: type.rawValue)
+            
+        }else{
+            list = realm.objects(Todotable.self).sorted(byKeyPath: type.rawValue, ascending: true)
+        }
+        
+        todosTableView.reloadData()
+    }
 }

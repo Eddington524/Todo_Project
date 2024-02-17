@@ -12,11 +12,11 @@ class Todotable: Object {
     @Persisted(primaryKey: true) var id: ObjectId
     @Persisted var title: String
     @Persisted var memo: String?
-    @Persisted var duedate: String
+    @Persisted var duedate: Date
     @Persisted var tag: String
-    @Persisted var priority: String
+    @Persisted var priority: Int
  
-    convenience init(title: String, memo: String? = nil, duedate: String, tag: String, priority: String) {
+    convenience init(title: String, memo: String? = nil, duedate: Date, tag: String, priority: Int) {
         self.init()
         self.title = title
         self.memo = memo

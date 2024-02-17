@@ -24,11 +24,14 @@ class PriorityViewController: BaseViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         let idx = segmentedControl.selectedSegmentIndex
+        
         if let newPriority = segmentedControl.titleForSegment(at: idx) {
             priority?(newPriority)
             
-            NotificationCenter.default.post(name: NSNotification.Name("priorityReceived"), object: nil, userInfo: ["priority": newPriority])
+            NotificationCenter.default.post(name: NSNotification.Name("priorityReceived"), object: nil, userInfo: ["priority": newPriority, "priorityIdx":idx ])
+//            print("newPriority",newPriority)
         }
+        
     }
     
     override func configureHierarchy() {
