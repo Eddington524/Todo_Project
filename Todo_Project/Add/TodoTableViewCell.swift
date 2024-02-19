@@ -61,9 +61,7 @@ class TodoTableViewCell: UITableViewCell {
 extension TodoTableViewCell {
     @objc func textFieldDidChange(_ sender: Any?){
         NotificationCenter.default.post(name: NSNotification.Name("TitleReceived"), object: nil, userInfo: ["title": titleTextField.text!])
-        print("title",titleTextField.text)
         
         NotificationCenter.default.post(name: NSNotification.Name("MemoReceived"), object: nil, userInfo: ["memo": memoTextField.text!])
-        print("memo",memoTextField.text)
     }
 }

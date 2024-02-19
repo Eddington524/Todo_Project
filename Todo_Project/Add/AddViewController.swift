@@ -18,6 +18,7 @@ class AddViewController: BaseViewController, PassDataDelegate {
         realDate = date
     }
     
+    let todoRepository = TodosTableRepository()
     
     var newList: Results<Todotable>!
     
@@ -57,9 +58,10 @@ class AddViewController: BaseViewController, PassDataDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let realm = try! Realm()
-        
-        newList = realm.objects(Todotable.self)
+//        let realm = try! Realm()
+//        
+//        newList = realm.objects(Todotable.self)
+        newList = todoRepository.fetch()
         
 //        print(newList)
     }
@@ -169,7 +171,7 @@ extension AddViewController {
     }
     
     @objc func saveButtonClicked() {
-        let realm = try! Realm()
+//        let realm = try! Realm()
         
         if title == "" {
             print("제목")
@@ -179,9 +181,11 @@ extension AddViewController {
         
         let data = Todotable(title: titleText, memo: memoText, duedate: realDate, tag: subList[2], priority: newPriority)
         
-        try! realm.write{
-            realm.add(data)
-        }
+//        try! realm.write{
+//            realm.add(data)
+//        }
+        
+        todoRepository.createItem(data)
         dismiss(animated: true)
         
     }

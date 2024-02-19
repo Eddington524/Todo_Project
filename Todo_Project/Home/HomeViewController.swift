@@ -59,6 +59,21 @@ enum SectionType: Int, CaseIterable {
             return "checkmark"
         }
     }
+    
+    var count: Int {
+        switch self {
+        case .today:
+            return TodosTableRepository().fetchTodayCount().count
+        case .goingto:
+            return TodosTableRepository().fetchTodayCount().count
+        case .total:
+            return TodosTableRepository().fetch().count
+        case .flag:
+            return 0
+        case .complete:
+            return 0
+        }
+    }
 }
 
 class HomeViewController: BaseViewController {
@@ -157,7 +172,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let item = SectionType.allCases[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier , for: indexPath) as! CategoryCollectionViewCell
         cell.iconImageView.image = UIImage(systemName: item.symbolIcon)
-        cell.countLabel.text = "0"
+        cell.countLabel.text = "\(item.count)"
         cell.categoryLabel.text = item.title
         cell.iconImageView.backgroundColor = item.backgroundColor
         cell.clipsToBounds = true

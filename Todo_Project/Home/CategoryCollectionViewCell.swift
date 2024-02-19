@@ -27,6 +27,7 @@ class CategoryCollectionViewCell: BaseCollectionViewCell {
     let countLabel: UILabel = {
         let view = UILabel()
         view.textColor = .white
+        view.font = .boldSystemFont(ofSize: 24)
        return view
     }()
     
@@ -56,7 +57,8 @@ class CategoryCollectionViewCell: BaseCollectionViewCell {
         }
         
         countLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentView.safeAreaLayoutGuide)
+//            make.top.equalTo(contentView.safeAreaLayoutGuide)
+            make.centerY.equalTo(iconImageView.snp.centerY)
             make.trailing.equalTo(contentView.safeAreaLayoutGuide).inset(8)
             make.height.equalTo(32)
         }

@@ -17,6 +17,8 @@ enum sortType: String {
 
 class TodosViewController: BaseViewController {
 
+    let todoRepository = TodosTableRepository()
+    
     let todosTableView: UITableView = {
        let table = UITableView()
         return table
@@ -109,16 +111,17 @@ extension TodosViewController {
     }
     
     func sortedTable(type:sortType){
-        let realm = try! Realm()
-        
-        if type == .prioritySort {
-            list = realm.objects(Todotable.self).where{
-                $0.priority == 0
-            }.sorted(byKeyPath: type.rawValue)
-            
-        }else{
-            list = realm.objects(Todotable.self).sorted(byKeyPath: type.rawValue, ascending: true)
-        }
+//        let realm = try! Realm()
+//        
+//        if type == .prioritySort {
+//            list = realm.objects(Todotable.self).where{
+//                $0.priority == 0
+//            }.sorted(byKeyPath: type.rawValue)
+//            
+//        }else{
+//            list = realm.objects(Todotable.self).sorted(byKeyPath: type.rawValue, ascending: true)
+//        }
+        list = todoRepository.fetchFilter(type)
         
         todosTableView.reloadData()
     }
